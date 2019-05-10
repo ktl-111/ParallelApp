@@ -1,0 +1,38 @@
+apply plugin: 'com.android.library'
+
+def configs = rootProject.ext.configs    //配置
+def librarys = rootProject.ext.librarys //依赖
+
+android {
+    compileSdkVersion configs["compileSdkVersion"]
+    buildToolsVersion configs["buildToolsVersion"]
+
+
+    defaultConfig {
+        minSdkVersion configs["minSdkVersion"]
+        targetSdkVersion configs["targetSdkVersion"]
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation librarys["support_appcompat_v7"]
+    testImplementation librarys["test"]
+    api librarys["retrofit"]
+    api librarys["retrofit_rxjava"]
+    api librarys["rxjava"]
+    api librarys["rxandroid"]
+    api librarys["loging_interceptor"]
+    api librarys["okhttp"]
+    api librarys["fastjson"]
+    api librarys["paperdb"]
+}
