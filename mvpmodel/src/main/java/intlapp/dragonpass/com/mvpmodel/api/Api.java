@@ -17,7 +17,8 @@ import retrofit2.http.Url;
 
 /**
  * Created by steam_l on 2018/10/31.
- * Desprition :
+ * Desprition :返回值一定是Response<ResponseBody>,
+ * 因为封装了解析{@link intlapp.dragonpass.com.mvpmodel.base.ObservableBuilder#jsonToBean(String)}
  */
 
 public interface Api {

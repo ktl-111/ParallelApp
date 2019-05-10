@@ -9,4 +9,14 @@ public class ParaseData<T> {
     public String result = "";//json数据
     public boolean cache;//是否是缓存
     public Throwable mThrowable;//error
+
+    @Override
+    public String toString() {
+        return "ParaseData{" +
+                "data=" + data +
+                ", result='" + result + '\'' +
+                ", cache=" + cache +
+                ", mThrowable=" + mThrowable +
+                '}';
+    }
 }

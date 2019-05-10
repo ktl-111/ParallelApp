@@ -15,4 +15,9 @@
         android:layout_height="wrap_content"
         android:onClick="mvc"
         android:text="mvc" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="test"
+        android:text="test" />
 </LinearLayout>

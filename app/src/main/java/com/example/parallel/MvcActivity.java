@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.parallel.api.ApiUtil;
+import com.example.parallel.api.Url;
 import com.example.parallel.bean.PublicBean;
 
 import intlapp.dragonpass.com.mvpmodel.base.ObjectObserver;
@@ -28,12 +29,13 @@ public class MvcActivity extends AppCompatActivity {
     }
 
     public void request(View v) {
+
         ObservableBuilder.
-                <PublicBean>newObservableBuilder(ApiUtil.getApiService().request("https://wanandroid.com/wxarticle/chapters/json  "))
+                <PublicBean>newObservableBuilder(ApiUtil.getApiService().request(Url.url))
                 .getCache(new GetCacheCallback<PublicBean>() {
                     @Override
                     public ParaseData<PublicBean> returnCache() {
-                        MyLog.rtLog(TAG, "取缓存:" + Thread.currentThread());
+                        MyLog.rtLog(TAG, "取缓存");
                         ParaseData<PublicBean> data = new ParaseData<>();
                         data.data = getCacheData();
                         return data;

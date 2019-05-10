@@ -16,6 +16,7 @@ import intlapp.dragonpass.com.mvpmodel.callback.PutCacheCallback;
 import intlapp.dragonpass.com.mvpmodel.callback.TimeCallback;
 import intlapp.dragonpass.com.mvpmodel.entity.ParaseData;
 import intlapp.dragonpass.com.mvpmodel.orther.MyJsonTypes;
+import intlapp.dragonpass.com.mvpmodel.orther.NullObserver;
 import intlapp.dragonpass.com.mvpmodel.orther.TypeThrowable;
 import intlapp.dragonpass.com.mvpmodel.utils.MyLog;
 import intlapp.dragonpass.com.mvpmodel.utils.RxUtils;
@@ -192,12 +193,24 @@ public class ObservableBuilder<T> {
         return this;
     }
 
+    /**
+     * 处理数据前最后一次数据过度action
+     *
+     * @param action
+     * @return
+     */
     public ObservableBuilder<T> action(Action<T> action) {
         mAction = action;
         return this;
     }
 
-    private Observable<ParaseData<T>> request(ObjectObserver<T> observer) {
+    /**
+     * 可以获取后,执行zip等其他操作
+     *
+     * @param observer 一定要显式指定泛型,否则解析不出来
+     * @return
+     */
+    public Observable<ParaseData<T>> request(NullObserver<T> observer) {
         this.mBaseObserver = observer;
         return init();
     }
@@ -210,7 +223,8 @@ public class ObservableBuilder<T> {
         if (observer.getmContext() == null) {
             return observer;
         }
-        request(observer)
+        this.mBaseObserver = observer;
+        init()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mBaseObserver);
         return mBaseObserver;
@@ -286,10 +300,12 @@ public class ObservableBuilder<T> {
                         public boolean test(ParaseData<T> tParaseData) throws Exception {
                             if (tParaseData.cache && mCacheEmitter.isDisposed()) {
                                 //当前是缓存,并且切断,丢弃
+                                MyLog.rtLog(TAG, "当前是缓存,已经切断了,丢弃");
                                 return false;
                             }
                             if (first && !tParaseData.cache && mCacheEmitter != null) {
                                 //如果第一次是网络,切断缓存
+                                MyLog.rtLog(TAG, "第一次是网络,切断缓存");
                                 mCacheEmitter.onComplete();
                             }
                             first = false;

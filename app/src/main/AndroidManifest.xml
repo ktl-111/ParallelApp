@@ -18,5 +18,6 @@
         </activity>
         <activity android:name=".MvcActivity"></activity>
         <activity android:name=".MvpActivity"></activity>
+        <activity android:name=".TestActivity"></activity>
     </application>
 </manifest>

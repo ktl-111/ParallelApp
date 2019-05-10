@@ -21,5 +21,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,MvpActivity.class);
         startActivity(intent);
     }
+    public void test(View v) {
+        Intent intent = new Intent(this,TestActivity.class);
+        startActivity(intent);
+    }
 
 }
