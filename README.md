@@ -90,4 +90,7 @@
 
 ### 缓存比网络快/网络比缓存快/zip/flatMap 请执行testactivity查看log
 
+### 绑定式MVP
+![绑定式MVP](/TIM20190510222301.png )
+
                 

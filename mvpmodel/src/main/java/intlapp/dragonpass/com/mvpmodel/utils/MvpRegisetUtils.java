@@ -38,7 +38,7 @@ public class MvpRegisetUtils {
      * @param fragment 当前fragment
      * @return 返回singmvp操作实例 {@link MultipleMVPFragment},初始化调用{@link MultipleMVPFragment#init()}方法
      */
-    public static MultipleMVPFragment registMultipleMvp(CreateMultiplePresentListener listener, Fragment fragment) {
+    public static MultipleMVPFragment registMultipleMvp(Fragment fragment, CreateMultiplePresentListener listener) {
         MultipleMVPFragment multipleMVPFragment = (MultipleMVPFragment) fragmentMap.get(fragment.getClass().getSimpleName());
         if (multipleMVPFragment == null) {
             multipleMVPFragment = new MultipleMVPFragment(listener, fragment);
@@ -56,7 +56,7 @@ public class MvpRegisetUtils {
      * @param <P>      当前对应的P
      * @return 返回singmvp操作实例 {@link SingMVPActivity<P>},初始化调用{@link SingMVPFragment#init()}方法
      */
-    public static <P extends ObjectPresenter> SingMVPFragment<P> registSingMvp(CreateSingPresentListener<P> listener, Fragment fragment) {
+    public static <P extends ObjectPresenter> SingMVPFragment<P> registSingMvp(Fragment fragment, CreateSingPresentListener<P> listener) {
         SingMVPFragment<P> singMVPFragment = (SingMVPFragment<P>) fragmentMap.get(fragment.getClass().getSimpleName());
         if (singMVPFragment == null) {
             singMVPFragment = new SingMVPFragment(listener, fragment);
@@ -73,7 +73,7 @@ public class MvpRegisetUtils {
      * @param activity 当前activity
      * @return 返回multiplemvp操作实例 {@link MultipleMVPActivity},初始化调用{@link MultipleMVPActivity#init()}方法
      */
-    public static MultipleMVPActivity registMultipleMvp(CreateMultiplePresentListener listener, AppCompatActivity activity) {
+    public static MultipleMVPActivity registMultipleMvp(AppCompatActivity activity, CreateMultiplePresentListener listener) {
         MultipleMVPActivity multipleMVPActivity = (MultipleMVPActivity) activityMap.get(activity.getClass().getSimpleName());
         if (multipleMVPActivity == null) {
             multipleMVPActivity = new MultipleMVPActivity(listener, activity);
@@ -91,7 +91,7 @@ public class MvpRegisetUtils {
      * @param <P>      当前对应的P
      * @return 返回singmvp操作实例 {@link SingMVPActivity<P>},初始化调用{@link SingMVPActivity#init()}方法
      */
-    public static <P extends ObjectPresenter> SingMVPActivity<P> registSingMvp(CreateSingPresentListener<P> listener, AppCompatActivity activity) {
+    public static <P extends ObjectPresenter> SingMVPActivity<P> registSingMvp(AppCompatActivity activity, CreateSingPresentListener<P> listener) {
         SingMVPActivity<P> singMVPActivity = (SingMVPActivity<P>) activityMap.get(activity.getClass().getSimpleName());
         if (singMVPActivity == null) {
             singMVPActivity = new SingMVPActivity<>(listener, activity);
