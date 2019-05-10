@@ -36,6 +36,11 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
     }
 
+    /**
+     * 缓存比网络快
+     *
+     * @param v
+     */
     public void test1(View v) {
         ObservableBuilder.
                 <PublicBean>newObservableBuilder(ApiUtil.getApiService().request(Url.url))
@@ -54,6 +59,19 @@ public class TestActivity extends AppCompatActivity {
                     @Override
                     public void putCache(ParaseData data) {
                         MyLog.rtLog(TAG, "存缓存:" + data);
+                    }
+                })
+                .action(new Action<PublicBean>() {
+                    @Override
+                    public ParaseData<PublicBean> action(ParaseData<PublicBean> data) {
+                        if (!data.cache) {
+                            //修改网络数据,纯粹为了查看log
+                            PublicBean bean = new PublicBean();
+                            bean.setErrorMsg("网络数据");
+                            data.data = bean;
+                            data.result = "网络数据";
+                        }
+                        return data;
                     }
                 })
                 .submit(new ObjectObserver<PublicBean>(this,
@@ -91,6 +109,11 @@ public class TestActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * 网络比缓存快
+     *
+     * @param v
+     */
     public void test2(View v) {
         ObservableBuilder.
                 <PublicBean>newObservableBuilder(ApiUtil.getApiService().request(Url.url))
@@ -109,6 +132,19 @@ public class TestActivity extends AppCompatActivity {
                     @Override
                     public void putCache(ParaseData data) {
                         MyLog.rtLog(TAG, "存缓存:" + data);
+                    }
+                })
+                .action(new Action<PublicBean>() {
+                    @Override
+                    public ParaseData<PublicBean> action(ParaseData<PublicBean> data) {
+                        if (!data.cache) {
+                            //修改网络数据,纯粹为了查看log
+                            PublicBean bean = new PublicBean();
+                            bean.setErrorMsg("网络数据");
+                            data.data = bean;
+                            data.result = "网络数据";
+                        }
+                        return data;
                     }
                 })
                 .submit(new ObjectObserver<PublicBean>(this,
@@ -157,7 +193,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public ObservableSource<ParaseData<String>> apply(ParaseData<String> stringParaseData) throws Exception {
                 //网络数据太多,处理下好查看log
-                stringParaseData.result="result";
+                stringParaseData.result = "result";
                 MyLog.rtLog(TAG, "flatMap-->apply:" + stringParaseData.toString());
                 return getData2();
             }
@@ -166,14 +202,16 @@ public class TestActivity extends AppCompatActivity {
                 .subscribe(new Consumer<ParaseData<String>>() {
                     @Override
                     public void accept(ParaseData<String> stringParaseData) throws Exception {
-                        stringParaseData.result="result";
+                        stringParaseData.result = "result";
                         MyLog.rtLog(TAG, "flatMap-->accept:" + stringParaseData.toString());
                     }
                 });
     }
 
-    /**如果两个请求都有从缓存拿,并且没报错的话,会走两次accept
+    /**
+     * 如果两个请求都有从缓存拿,并且没报错的话,会走两次accept
      * 只要有一个请求没有从缓存拿,或者只走一次,那么另一个请求的第二次数据不会走accept
+     *
      * @param v
      */
     public void zip(View v) {
@@ -181,16 +219,16 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public String apply(ParaseData<String> stringParaseData, ParaseData<String> stringParaseData2) throws Exception {
                 //网络数据太多,处理下好查看log
-                stringParaseData.result="result";
-                stringParaseData2.result="result";
-                MyLog.rtLog(TAG, "zip-->apply:"+stringParaseData.toString() + "\n" + stringParaseData2.toString());
+                stringParaseData.result = "result";
+                stringParaseData2.result = "result";
+                MyLog.rtLog(TAG, "zip-->apply:" + stringParaseData.toString() + "\n" + stringParaseData2.toString());
                 return stringParaseData.data + "+" + stringParaseData2.data;
             }
         })
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        MyLog.rtLog(TAG, "zip-->accept:"+s);
+                        MyLog.rtLog(TAG, "zip-->accept:" + s);
                     }
                 });
     }

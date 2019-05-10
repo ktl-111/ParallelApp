@@ -10,6 +10,7 @@ import com.example.parallel.bean.PublicBean;
 import intlapp.dragonpass.com.mvpmodel.base.ObjectObserver;
 import intlapp.dragonpass.com.mvpmodel.base.ObjectPresenter;
 import intlapp.dragonpass.com.mvpmodel.base.ObservableBuilder;
+import intlapp.dragonpass.com.mvpmodel.callback.Action;
 import intlapp.dragonpass.com.mvpmodel.callback.GetCacheCallback;
 import intlapp.dragonpass.com.mvpmodel.callback.PutCacheCallback;
 import intlapp.dragonpass.com.mvpmodel.entity.ParaseData;
@@ -39,6 +40,19 @@ public class DataPersent extends ObjectPresenter<DataView> {
                     @Override
                     public void putCache(ParaseData data) {
                         MyLog.rtLog(TAG, "存缓存:" + data.data);
+                    }
+                })
+                .action(new Action<PublicBean>() {
+                    @Override
+                    public ParaseData<PublicBean> action(ParaseData<PublicBean> data) {
+                        if(!data.cache) {
+                            //修改网络数据,纯粹为了查看log
+                            PublicBean bean = new PublicBean();
+                            bean.setErrorMsg("网络数据");
+                            data.data = bean;
+                            data.result = "网络数据";
+                        }
+                        return data;
                     }
                 })
                 .submit(new ObjectObserver<PublicBean>(context,
